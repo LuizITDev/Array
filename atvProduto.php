@@ -43,10 +43,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'sair') {
 
 // Cadastro de produto
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cadastrar_produto'])) {
-    $nomeProduto = clean_input($_POST['nomeProduto'] ?? '');
-    $categoria = clean_input($_POST['categoria'] ?? '');
-    $qtdEstoque = clean_input($_POST['qtdEstoque'] ?? '');
-    $precoUnitario = clean_input($_POST['precoUnitario'] ?? '');
+    $nomeProduto = clean_input(isset($_POST['nomeProduto']) ? $_POST['nomeProduto'] : '');
+    $categoria = clean_input(isset($_POST['categoria']) ? $_POST['categoria'] : '');
+    $qtdEstoque = clean_input(isset($_POST['qtdEstoque']) ? $_POST['qtdEstoque'] : '');
+    $precoUnitario = clean_input(isset($_POST['precoUnitario']) ? $_POST['precoUnitario'] : '');
 
     if ($nomeProduto === '') { $erros[] = 'Nome do produto é obrigatório.'; }
     if ($categoria === '') { $erros[] = 'Categoria é obrigatória.'; }
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cadastrar_produto']))
     }
 }
 
-$acao = $_GET['action'] ?? 'menu';
+$acao = isset($_GET['action']) ? $_GET['action'] : 'menu';
 
 echo '<h1>Sistema de Controle de Produtos</h1>';
 
@@ -138,7 +138,8 @@ switch ($acao) {
         break;
     case 'buscar':
         echo '<h2>Buscar Produto pelo Nome</h2>';
-        echo '<form method="get" action="?action=buscar">';
+        echo '<form method="get" action="' . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8') . '">';
+        echo '<input type="hidden" name="action" value="buscar">';
         echo 'Nome do produto: <input type="text" name="nome_buscar" required> ';
         echo '<button type="submit">Buscar</button>';
         echo '</form>';
