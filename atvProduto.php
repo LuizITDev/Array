@@ -34,7 +34,7 @@ $mensagens = array();
 erros:
 $erros = array();
 
-// OpÁ„o sair
+// Op√ß√£o sair
 if (isset($_GET['action']) && $_GET['action'] === 'sair') {
     session_unset();
     session_destroy();
@@ -49,21 +49,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cadastrar_produto']))
     $qtdEstoque = clean_input($_POST['qtdEstoque'] ?? '');
     $precoUnitario = clean_input($_POST['precoUnitario'] ?? '');
 
-    if ($nomeProduto === '') { $erros[] = 'Nome do produto È obrigatÛrio.'; }
-    if ($categoria === '') { $erros[] = 'Categoria È obrigatÛria.'; }
-    if ($qtdEstoque === '') { $erros[] = 'Quantidade em estoque È obrigatÛria.'; }
-    if ($precoUnitario === '') { $erros[] = 'PreÁo unit·rio È obrigatÛrio.'; }
+    if ($nomeProduto === '') { $erros[] = 'Nome do produto √© obrigat√≥rio.'; }
+    if ($categoria === '') { $erros[] = 'Categoria √© obrigat√≥ria.'; }
+    if ($qtdEstoque === '') { $erros[] = 'Quantidade em estoque √© obrigat√≥ria.'; }
+    if ($precoUnitario === '') { $erros[] = 'Pre√ßo unit√°rio √© obrigat√≥rio.'; }
 
     if ($qtdEstoque !== '' && (!is_numeric($qtdEstoque) || intval($qtdEstoque) < 0)) {
-        $erros[] = 'Quantidade em estoque deve ser n˙mero inteiro >= 0.';
+        $erros[] = 'Quantidade em estoque deve ser n√∫mero inteiro >= 0.';
     }
     if ($precoUnitario !== '' && (!is_numeric($precoUnitario) || floatval($precoUnitario) < 0)) {
-        $erros[] = 'PreÁo unit·rio deve ser n˙mero >= 0.';
+        $erros[] = 'Pre√ßo unit√°rio deve ser n√∫mero >= 0.';
     }
 
     $totalCadastrados = count($_SESSION['produto_nomes']);
     if ($totalCadastrados >= 10) {
-        $erros[] = 'Limite de 10 produtos atingido. N„o È possÌvel cadastrar mais.';
+        $erros[] = 'Limite de 10 produtos atingido. N√£o √© poss√≠vel cadastrar mais.';
     }
 
     if (empty($erros)) {
@@ -107,23 +107,23 @@ $produtosTotal = count($_SESSION['produto_nomes']);
 switch ($acao) {
     case 'cadastrar':
         if ($produtosTotal >= 10) {
-            echo '<p class="warning">J· existem 10 produtos cadastrados. Remova/encerrar sess„o para reiniciar.</p>';
+            echo '<p class="warning">J√° existem 10 produtos cadastrados. Remova/encerrar sess√£o para reiniciar.</p>';
         }
         echo '<h2>Cadastro de Produto</h2>';
         echo '<form method="post" action="?action=cadastrar">';
         echo 'Nome do produto:<br><input type="text" name="nomeProduto" required><br><br>';
         echo 'Categoria:<br><input type="text" name="categoria" required><br><br>';
         echo 'Quantidade em estoque:<br><input type="number" name="qtdEstoque" min="0" step="1" required><br><br>';
-        echo 'PreÁo unit·rio:<br><input type="number" name="precoUnitario" min="0" step="0.01" required><br><br>';
+        echo 'Pre√ßo unit√°rio:<br><input type="number" name="precoUnitario" min="0" step="0.01" required><br><br>';
         echo '<button type="submit" name="cadastrar_produto">Cadastrar</button>';
         echo '</form>';
         break;
     case 'listar':
         echo '<h2>Produtos Cadastrados</h2>';
         if ($produtosTotal === 0) {
-            echo '<p class="warning">N„o existem produtos cadastrados.</p>';
+            echo '<p class="warning">N√£o existem produtos cadastrados.</p>';
         } else {
-            echo '<table><tr><th>Nome</th><th>Categoria</th><th>Quantidade</th><th>PreÁo unit·rio</th><th>Valor total</th></tr>';
+            echo '<table><tr><th>Nome</th><th>Categoria</th><th>Quantidade</th><th>Pre√ßo unit√°rio</th><th>Valor total</th></tr>';
             for ($i = 0; $i < $produtosTotal; $i++) {
                 $valorItem = $_SESSION['produto_quantidades'][$i] * $_SESSION['produto_precos'][$i];
                 echo '<tr>';
@@ -154,13 +154,13 @@ switch ($acao) {
                     echo '<p><strong>Nome:</strong> ' . htmlspecialchars($_SESSION['produto_nomes'][$i], ENT_QUOTES, 'UTF-8') . '</p>';
                     echo '<p><strong>Categoria:</strong> ' . htmlspecialchars($_SESSION['produto_categorias'][$i], ENT_QUOTES, 'UTF-8') . '</p>';
                     echo '<p><strong>Quantidade:</strong> ' . $_SESSION['produto_quantidades'][$i] . '</p>';
-                    echo '<p><strong>PreÁo unit·rio:</strong> R$ ' . number_format($_SESSION['produto_precos'][$i], 2, ',', '.') . '</p>';
+                    echo '<p><strong>Pre√ßo unit√°rio:</strong> R$ ' . number_format($_SESSION['produto_precos'][$i], 2, ',', '.') . '</p>';
                     echo '<p><strong>Valor total:</strong> R$ ' . number_format($_SESSION['produto_quantidades'][$i] * $_SESSION['produto_precos'][$i], 2, ',', '.') . '</p>';
                     break;
                 }
             }
             if (!$encontrado) {
-                echo '<p class="warning">Produto n„o encontrado.</p>';
+                echo '<p class="warning">Produto n√£o encontrado.</p>';
             }
         }
         break;
@@ -168,7 +168,7 @@ switch ($acao) {
         echo '<h2>Produtos com Estoque Baixo (< 5)</h2>';
         $temBaixo = false;
         if ($produtosTotal === 0) {
-            echo '<p class="warning">N„o existem produtos cadastrados.</p>';
+            echo '<p class="warning">N√£o existem produtos cadastrados.</p>';
         } else {
             echo '<ul>';
             for ($i = 0; $i < $produtosTotal; $i++) {
@@ -179,17 +179,17 @@ switch ($acao) {
             }
             echo '</ul>';
             if (!$temBaixo) {
-                echo '<p class="warning">N„o existem produtos com estoque baixo.</p>';
+                echo '<p class="warning">N√£o existem produtos com estoque baixo.</p>';
             }
         }
         break;
     case 'valor_total':
         echo '<h2>Valor Total do Estoque</h2>';
         if ($produtosTotal === 0) {
-            echo '<p class="warning">N„o È possÌvel calcular: n„o existem produtos cadastrados.</p>';
+            echo '<p class="warning">N√£o √© poss√≠vel calcular: n√£o existem produtos cadastrados.</p>';
         } else {
             $valorGeral = 0.0;
-            echo '<table><tr><th>Produto</th><th>Quantidade</th><th>PreÁo</th><th>Valor total item</th></tr>';
+            echo '<table><tr><th>Produto</th><th>Quantidade</th><th>Pre√ßo</th><th>Valor total item</th></tr>';
             for ($i = 0; $i < $produtosTotal; $i++) {
                 $valorItem = $_SESSION['produto_quantidades'][$i] * $_SESSION['produto_precos'][$i];
                 $valorGeral += $valorItem;
@@ -207,7 +207,7 @@ switch ($acao) {
     case 'menu':
     default:
         echo '<h2>Menu</h2>';
-        echo '<p>Escolha uma opÁ„o no menu acima para iniciar.</p>';
+        echo '<p>Escolha uma op√ß√£o no menu acima para iniciar.</p>';
         break;
 }
 ?>
