@@ -31,7 +31,6 @@ function clean_input($value) {
 }
 
 $mensagens = array();
-erros:
 $erros = array();
 
 // Opção sair
